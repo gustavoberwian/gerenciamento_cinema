@@ -1,58 +1,39 @@
-SISTEMA PARA GERENCIAMENTO DE CINEMA
+# SISTEMA PARA GERENCIAMENTO DE CINEMA
 
-Início:
-	- Valor ingresso
-	- Fileiras (linhas)  ---
-					 ---> Sala de cinema
-	- Assentos (colunas) ---
+## Sistema básico para gerenciamento de cinema
 
-Menu:
-	- Carregar dados
-		-> ingresso.txt
-			> Registro reserva
-			> Nome
-			> Idade
-			> Sexo
-			> Asssento
+=================
 
-Consultar assento:
-	- Letra para linha
-	- Número para coluna
-	- Retorna situação do assento (liberado ou reservado)
-	- Reservado
-		-> Sexo
-		-> Idade
-		-> Valor pago de acordo com idade
+Cenário: Ao iniciar o programa, será solicitado ao usuário informar o valor do ingresso, a 
+quantidade  de  fileiras  (linhas)  e  quantos  assentos  por  fileira  (colunas)  o  cinema 
+comporta. Com esses dados, deve-se criar uma matriz para gerenciar as reservas. Cada posição 
+dessa matriz representa um assento, que deve armazenar a idade e o sexo do ocupante. 
 
-Fazer reserva de "n" assentos:
-	- Solicita assento inicial
-	- Solicita n assentos desejados
-	- Verifica situação de cada um
-	- Caso nenhum disponível avisar usuário e não reservar
-	- Não sobrepor reservas
-	- Solicitar sexo e idade para cada reserva
-
-Liberar reserva de "n" assentos:
-	- Mesmo que anterior só que para desfazer reserva
-
-Ver mapa cinema:
-	- Liberados
-		-> "."
-	- Reservados
-		-> "X"
-
-Relatórios:
-	- Tabela mostrando assento, sexo, idade, valor
-	- Total de assentos separados por status
-	- Total de reservas
-	- Gráfico
-		-> Total pagamentos inteira (18 a 59 anos)
-		-> Total pagamentos meia-entrada (0 a 17 anos e 60 ou mais anos)
-		-> 
-
-Salvar dados:
-	- Usuário informa nome do arquivo
-	- Sistema salva reservas
-
-Sair:
-	- Encerra programa
+Menu: 
+ 
+O programa deverá conter um menu com as seguintes funcionalidades: 
+ 
+1. Carregar dados: usuário informa o nome do arquivo que contém o registro das reservas e 
+o programa atualiza a matriz com os dados lidos do arquivo; 
+2. Consultar situação de um assento: usuário informa o assento (letra da linha e número da 
+coluna) e o programa retorna se está liberado ou reservado. Caso esteja reservado, retornar 
+o sexo e a idade do ocupante, seguido do valor pago de acordo com a idade; 
+3. Fazer reservas de “n” assentos: “n” assentos na mesma fileira, a partir de um assento 
+informado pelo usuário. Caso não existam “n” assentos disponíveis a partir do assento 
+informado, avisar o usuário e não fazer nenhuma reserva. Não deve permitir sobreposição  
+de  assentos  previamente  reservados.  A  cada  assento  a  ser  reservado,  solicitar  o  sexo  e  a  
+idade do ocupante; 
+4. Liberar reserva de “n” assentos: na mesma fileira, a partir de um assento informado; 
+5. Visualizar  mapa  do  cinema:  mostrar  o  mapa  do  cinema  em  formato  tabular,  com  os 
+assentos liberados representados por “·” e os reservados representados por um “X”; 
+6. Relatórios: 
+a.  Listagem em formato de tabela apresentando as informações das reservas do cinema 
+(assento, sexo, idade, valor); 
+b.  Quantidade total de assentos do cinema, divididos entre liberados e reservados; 
+c.  Quantidade de reservas, dividido por sexo; 
+d.  Gráfico e quantidade de pagantes inteira (18 a 59 anos) e meia entrada (crianças e 
+adolescentes 0 a 17 anos e idosos 60 anos ou mais). Mostrar as 3 classificações, com 
+quantidades, percentuais e valor arrecadado por faixa. Mostrar também a receita 
+total; 
+7. Salvar dados: usuário informa o nome do arquivo e o programa salva as reservas; 
+8. Sair: Encerra o programa
