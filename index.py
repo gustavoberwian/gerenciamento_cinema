@@ -55,15 +55,19 @@ def option_1():
 def option_2():
     global linhas
     global colunas
-    mostra_matriz(linhas, colunas)
+    global matriz_assentos
+    mostra_matriz()
 
     linha = input(print('Informe a letra da fileira: '))
-    coluna = input(print('Informe o número da coluna: '))
+    linha_int = ord(linha) - 97
+    coluna = int(input(print('Informe o número da coluna: ')))
+    coluna_int = coluna - 1
 
-    if verifica_assento(linha, coluna):
-        print('O assento ', linha, coluna, ' está livre')
+    if verifica_assento(linha_int, coluna_int):
+        print(f'O assento {linha.upper()}{str(coluna).zfill(2)} está livre')
     else:
-        print()
+        print(f'O assento {linha.upper()}{str(coluna).zfill(2)} está reservado')
+
 
 
 def option_3():
