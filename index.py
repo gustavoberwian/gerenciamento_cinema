@@ -52,7 +52,6 @@ def verifica_assento(linha, coluna):
 
 def realiza_reserva(linha, coluna, sexo, idade):
     global matriz_assentos
-    global filename
 
     f = open("reservas/temp.csv", "a")
     f.write(linha.upper() + str(coluna).zfill(1) + ',' + sexo + ',' + idade + '\n')
@@ -63,6 +62,10 @@ def realiza_reserva(linha, coluna, sexo, idade):
     matriz_assentos[linha_int][coluna_int] = "X"
 
 
+def exclui_reserva(linha, coluna):
+    print(linha, coluna)
+
+
 def option_1():
     global matriz_assentos
     global filename
@@ -71,7 +74,6 @@ def option_1():
     rows = []
     with open("reservas/" + filename + ".csv", "r") as csvfile:
         csvreader = csv.reader(csvfile)
-        fields = next(csvreader)
         for row in csvreader:
             rows.append(row)
 
@@ -103,7 +105,6 @@ def option_2():
         rows = []
         with open("reservas/" + filename + ".csv", "r") as csvfile:
             csvreader = csv.reader(csvfile)
-            fields = next(csvreader)
             for row in csvreader:
                 rows.append(row)
 
@@ -146,14 +147,20 @@ def option_3():
         f.write('Assento,Sexo,Idade\n')
         f.close()
         for coluna in range(primeiro_assento, ultimo_assento + 1):
-            coluna_int = coluna - 1
             sexo = input(f"Sexo do ocupante do assento {linha.upper()}{str(coluna).zfill(2)} (F) feminino, (M) masculino: ")
             idade = input(f"Idade do ocupante do assento {linha.upper()}{str(coluna).zfill(2)}: ")
             realiza_reserva(linha, coluna, sexo, idade)
 
 
 def option_4():
-    print('opção 4 escolhida')
+    global matriz_assentos
+    mostra_matriz()
+    linha = input("Digite a letra da fileira do(s) assentos(s): ")
+    primeiro_assento = int(input("Digite a coluna do primeiro assento: "))
+    ultimo_assento = int(input("Digite a coluna do último assento: "))
+
+    for coluna in range(primeiro_assento, ultimo_assento + 1):
+        exclui_reserva(linha, coluna)
 
 
 def option_5():
@@ -165,6 +172,8 @@ def option_6():
 
 
 def option_7():
+    global filename
+
     filename = input(print('Informe o nome do arquivo a ser salvo: '))
     os.rename('reservas/temp.csv', 'reservas/' + filename + '.csv')
 
@@ -229,9 +238,6 @@ def menu():
     # Retorna opção selecionada
     return selecionado
 
-
-# def update(row, col, val):
-#     matrix[rows[row]][cols[col]] = val
 
 if __name__ == '__main__':
     inicio()
