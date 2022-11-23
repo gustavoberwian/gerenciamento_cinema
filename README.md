@@ -26,14 +26,14 @@ idade do ocupante;
 4. Liberar reserva de “n” assentos: na mesma fileira, a partir de um assento informado; 
 5. Visualizar  mapa  do  cinema:  mostrar  o  mapa  do  cinema  em  formato  tabular,  com  os 
 assentos liberados representados por “·” e os reservados representados por um “X”; 
-6. Relatórios: 
-a.  Listagem em formato de tabela apresentando as informações das reservas do cinema 
-(assento, sexo, idade, valor); 
-b.  Quantidade total de assentos do cinema, divididos entre liberados e reservados; 
-c.  Quantidade de reservas, dividido por sexo; 
-d.  Gráfico e quantidade de pagantes inteira (18 a 59 anos) e meia entrada (crianças e 
-adolescentes 0 a 17 anos e idosos 60 anos ou mais). Mostrar as 3 classificações, com 
-quantidades, percentuais e valor arrecadado por faixa. Mostrar também a receita 
-total; 
+6. Relatórios:
+   - Listagem em formato de tabela apresentando as informações das reservas do cinema 
+   (assento, sexo, idade, valor); 
+   - Quantidade total de assentos do cinema, divididos entre liberados e reservados; 
+   - Quantidade de reservas, dividido por sexo; 
+   - Gráfico e quantidade de pagantes inteira (18 a 59 anos) e meia entrada (crianças e 
+   adolescentes 0 a 17 anos e idosos 60 anos ou mais). Mostrar as 3 classificações, com 
+   quantidades, percentuais e valor arrecadado por faixa. Mostrar também a receita 
+   total; 
 7. Salvar dados: usuário informa o nome do arquivo e o programa salva as reservas; 
 8. Sair: Encerra o programa
