@@ -376,7 +376,7 @@ def option_6():
     # Calcula total pagantes
     total_pagantes = pagante_inteira + pagante_meia_menor + pagante_meia_idoso
     # Calcula valor total dos ingressos vendidos
-    valor_total_pagantes = total_pagantes * int(valor_ingresso)
+    valor_total_pagantes = valor_pagante_inteira + valor_pagante_menor + valor_pagante_idoso
 
     # Cálculos para montar gráfico
     cent_menor = 100 * pagante_meia_menor / total_pagantes
