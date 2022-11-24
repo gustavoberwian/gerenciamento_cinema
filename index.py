@@ -8,7 +8,8 @@ valor_ingresso = 0
 linhas = 0
 colunas = 0
 matriz_assentos = []
-filename = ''
+reservas = []
+filename = ""
 
 
 def cria_matriz():
@@ -53,27 +54,38 @@ def verifica_assento(linha, coluna):
 def realiza_reserva(linha, coluna, sexo, idade):
     global matriz_assentos
 
-    f = open("reservas/temp.csv", "a")
-    f.write(linha.upper() + str(coluna).zfill(1) + ',' + sexo + ',' + idade + '\n')
-    f.close()
-
     linha_int = ord(linha) - 97
     coluna_int = coluna - 1
     matriz_assentos[linha_int][coluna_int] = "X"
+    reservas.append(linha.upper() + str(coluna).zfill(1) + ',' + sexo + ',' + idade)
 
 
 def exclui_reserva(linha, coluna):
-    print(linha, coluna)
+    global matriz_assentos
+    global reservas
+
+    linha_int = ord(linha) - 97
+    coluna_int = coluna - 1
+    matriz_assentos[linha_int][coluna_int] = "'"
+
+    for item in reservas[:]:
+        if item.find(linha.upper() + str(coluna).zfill(1)) != -1:
+            reservas.remove(item)
 
 
 def option_1():
     global matriz_assentos
     global filename
+    global reservas
 
     filename = input("Informe o nome do arquivo: ")
+    if not os.path.exists("reservas/" + filename + ".csv"):
+        return
+
     rows = []
     with open("reservas/" + filename + ".csv", "r") as csvfile:
         csvreader = csv.reader(csvfile)
+        fields = next(csvreader)
         for row in csvreader:
             rows.append(row)
 
@@ -82,8 +94,16 @@ def option_1():
         for i in range(len(row)):
             if i == 0:
                 linha = ord(row[i][0]) - 65
+                linha_str = row[i][0]
                 coluna = int(row[i][1:]) - 1
+                coluna_str = row[i][1:]
                 matriz_assentos[linha][coluna] = 'X'
+            if i == 1:
+                sexo = row[i]
+            if i == 2:
+                idade = row[i]
+
+        reservas.append(linha_str + coluna_str + ',' + sexo + ',' + idade)
 
 
 def option_2():
@@ -105,6 +125,7 @@ def option_2():
         rows = []
         with open("reservas/" + filename + ".csv", "r") as csvfile:
             csvreader = csv.reader(csvfile)
+            fields = next(csvreader)
             for row in csvreader:
                 rows.append(row)
 
@@ -139,13 +160,6 @@ def option_3():
         print("Um ou mais assentos escolhidos estão reservados. Não foi possível realizar a reserva.")
         return
     else:
-        if os.path.exists("reservas/temp.csv"):
-            os.remove("reservas/temp.csv")
-        f = open("reservas/temp.csv", "x")
-        f.close()
-        f = open("reservas/temp.csv", "w")
-        f.write('Assento,Sexo,Idade\n')
-        f.close()
         for coluna in range(primeiro_assento, ultimo_assento + 1):
             sexo = input(f"Sexo do ocupante do assento {linha.upper()}{str(coluna).zfill(2)} (F) feminino, (M) masculino: ")
             idade = input(f"Idade do ocupante do assento {linha.upper()}{str(coluna).zfill(2)}: ")
@@ -173,9 +187,20 @@ def option_6():
 
 def option_7():
     global filename
+    global reservas
 
-    filename = input(print('Informe o nome do arquivo a ser salvo: '))
-    os.rename('reservas/temp.csv', 'reservas/' + filename + '.csv')
+    filename = ""
+
+    while os.path.exists("reservas/" + filename + ".csv") or filename == "":
+        filename = input(print('Informe o nome do arquivo a ser salvo: '))
+
+    f = open("reservas/" + filename + ".csv", "x")
+    f.close()
+    f = open("reservas/" + filename + ".csv", "w")
+    f.write('Assento,Sexo,Idade\n')
+    for item in reservas:
+        f.write(item + '\n')
+    f.close()
 
 
 def inicio():
