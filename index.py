@@ -113,7 +113,7 @@ def realiza_reserva(linha, coluna, sexo, idade):
     # Converte assento para ocupado
     matriz_assentos[linha_int][coluna - 1] = "X"
     # Insere linha na matriz de apoio
-    reservas.append(linha.upper() + str(coluna).zfill(1) + ',' + sexo + ',' + idade)
+    reservas.append(linha.upper() + str(coluna).zfill(1) + ',' + sexo + ',' + str(idade))
 
 
 def exclui_reserva(linha, coluna):
@@ -143,7 +143,7 @@ def option_1():
     global reservas
 
     # Solicita nome do arquivo a ser carregado
-    filename = input("Informe o nome do arquivo: ")
+    filename = str(input("Informe o nome do arquivo: "))
     # Caso arquivo não exista retorna ao menu
     if not os.path.exists("reservas/" + filename + ".csv"):
         return
@@ -199,11 +199,11 @@ def option_2():
     mostra_matriz()
 
     # Solicita ao usuário a letra da fileira
-    linha = input(print('Informe a letra da fileira: '))
+    linha = str(input('Informe a letra da fileira: '))
     # Converte letra da fileira em número da linha
     linha_int = ord(linha) - 97
     # Solicita ao usuário o número da coluna
-    coluna = int(input(print('Informe o número da coluna: ')))
+    coluna = int(input('Informe o número da coluna: '))
 
     # Chama função verifica assento
     if verifica_assento(linha_int, coluna - 1):
@@ -243,7 +243,7 @@ def option_3():
     mostra_matriz()
 
     # Solicita linha do assento
-    linha = input("Digite a letra da fileira do(s) assentos(s): ")
+    linha = str(input("Digite a letra da fileira do(s) assentos(s): "))
     # Solicita primeiro assento da lista
     primeiro_assento = int(input("Digite a coluna do primeiro assento: "))
     # Solicita último assento da lista
@@ -267,9 +267,10 @@ def option_3():
         # Se todas livres
         for coluna in range(primeiro_assento, ultimo_assento + 1):
             # Solicita sexo e idade para cada assento
-            sexo = input(
-                f"Sexo do ocupante do assento {linha.upper()}{str(coluna).zfill(2)} (F) feminino, (M) masculino: ")
-            idade = input(f"Idade do ocupante do assento {linha.upper()}{str(coluna).zfill(2)}: ")
+            sexo = ''
+            while sexo != 'M' and sexo != 'F':
+                sexo = str(input(f"Sexo do ocupante do assento {linha.upper()}{str(coluna).zfill(2)} (F) feminino, (M) masculino: "))
+            idade = int(input(f"Idade do ocupante do assento {linha.upper()}{str(coluna).zfill(2)}: "))
             # Chama função para realizar reserva
             realiza_reserva(linha, coluna, sexo, idade)
 
@@ -284,7 +285,7 @@ def option_4():
     mostra_matriz()
 
     # Solicita linha do assento
-    linha = input("Digite a letra da fileira do(s) assentos(s): ")
+    linha = str(input("Digite a letra da fileira do(s) assentos(s): "))
     # Solicita primeiro assento da lista
     primeiro_assento = int(input("Digite a coluna do primeiro assento: "))
     # Solicita último assento da lista
@@ -393,9 +394,9 @@ def option_6():
 
     # Lógica para montar gráfico
     print("Gráfico Valores")
-    print("{:<12}: {:<6} - {:<6}% |{:<20}| R${:<6}".format('Meia menor', pagante_meia_menor, cent_menor, str('=' * round(int(cent_menor_grafico), 1)) + str('-' * round(int(cent_menor_grafico_2), 1)), valor_pagante_menor))
-    print("{:<12}: {:<6} - {:<6}% |{:<20}| R${:<6}".format('Inteira', pagante_inteira, cent_inteira, str('=' * round(int(cent_inteira_grafico), 1)) + str('-' * round(int(cent_inteira_grafico_2), 1)), valor_pagante_inteira))
-    print("{:<12}: {:<6} - {:<6}% |{:<20}| R${:<6}".format('Meia idoso', pagante_meia_idoso, cent_idoso, str('=' * round(int(cent_idoso_grafico), 1)) + str('-' * round(int(cent_idoso_grafico_2), 1)), valor_pagante_idoso))
+    print("{:<12}: {:<6} - {:<6}% |{:<20}| R${:<6}".format('Meia menor', round(pagante_meia_menor, 2), cent_menor, str('=' * round(int(cent_menor_grafico), 1)) + str('-' * round(int(cent_menor_grafico_2), 1)), valor_pagante_menor))
+    print("{:<12}: {:<6} - {:<6}% |{:<20}| R${:<6}".format('Inteira', round(pagante_inteira, 2), cent_inteira, str('=' * round(int(cent_inteira_grafico), 1)) + str('-' * round(int(cent_inteira_grafico_2), 1)), valor_pagante_inteira))
+    print("{:<12}: {:<6} - {:<6}% |{:<20}| R${:<6}".format('Meia idoso', round(pagante_meia_idoso, 2), cent_idoso, str('=' * round(int(cent_idoso_grafico), 1)) + str('-' * round(int(cent_idoso_grafico_2), 1)), valor_pagante_idoso))
     print("{:<12}: {:<6} - {:<6}% |{:<20}| R${:<6}".format('Total', total_pagantes, '100,0', '====================', valor_total_pagantes))
     print()
     # Fim da lógica para montar gráfico
@@ -413,7 +414,7 @@ def option_7():
 
     while os.path.exists("reservas/" + filename + ".csv") or filename == "":
         # Define filename caso não exista nenhum arquivo com esse nome
-        filename = input(print('Informe o nome do arquivo a ser salvo: '))
+        filename = str(input('Informe o nome do arquivo a ser salvo: '))
 
     # Cria arquivo com nome informado
     f = open("reservas/" + filename + ".csv", "x")
@@ -440,11 +441,11 @@ def inicio():
     global colunas
 
     # Solicita valor do ingresso
-    valor_ingresso = input(print('Digite o valor do ingresso: '))
+    valor_ingresso = float(input('Digite o valor do ingresso: '))
     # Solicita número de linhas
-    linhas = int(input(print('Digite a quantidade de fileiras: ')))
+    linhas = int(input('Digite a quantidade de fileiras: '))
     # Solicita número de colunas
-    colunas = int(input(print('Digite a quantidade de assentos por fileira: ')))
+    colunas = int(input('Digite a quantidade de assentos por fileira: '))
 
     # Chama função cria matriz
     cria_matriz()
@@ -495,7 +496,7 @@ def menu():
     print('[9] Sair\n')
 
     # Solicita que usuário informe uma opção e guarda em variável
-    selecionado = input(print('Escolha uma opção: '))
+    selecionado = input('Escolha uma opção: ')
 
     # Retorna opção selecionada
     return selecionado
