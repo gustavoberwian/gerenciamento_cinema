@@ -358,11 +358,11 @@ def option_6():
         if int(idade) < 18:
             # Se idade menor, soma 1
             pagante_meia_menor += 1
-            valor_pagante_menor += int(valor_ingresso)
+            valor_pagante_menor += int(valor_ingresso) / 2
         if int(idade) > 59:
             # Se idade maior, soma 1
             pagante_meia_idoso += 1
-            valor_pagante_idoso += int(valor_ingresso)
+            valor_pagante_idoso += int(valor_ingresso) / 2
 
     # Calcula total de assentos reservados
     total_reservados = total_reservados_M + total_reservados_F
