@@ -8,6 +8,17 @@ valor_ingresso = 0
 linhas = 0
 colunas = 0
 filename = ""
+total_assentos = linhas * colunas
+total_assentos_liberados = 0
+total_assentos_reservados = 0
+total_reservados_F = 0
+total_reservados_M = 0
+pagante_meia_menor = 0
+pagante_meia_idoso = 0
+pagante_inteira = 0
+valor_pagante_inteira = 0
+valor_pagante_menor = 0
+valor_pagante_idoso = 0
 # Matriz principal
 matriz_assentos = []
 # Matriz de apoio para salvar em arquivo csv
@@ -43,7 +54,7 @@ def mostra_matriz():
     global colunas
 
     # Lógica para mostra números das colunas
-    numeros = ["%.2d" % i for i in range(1, colunas+1)]
+    numeros = ["%.2d" % i for i in range(1, colunas + 1)]
     print(' ', end="")
     for i in range(len(numeros)):
         print(' ', numeros[i], '', end="")
@@ -70,6 +81,25 @@ def verifica_assento(linha, coluna):
     elif matriz_assentos[linha][coluna] == "X":
         # Se estiver ocupado retorna False
         return False
+
+
+def conta_assentos(linha, coluna):
+    # Função contadora de assentos
+
+    # Chama variável global
+    global matriz_assentos
+    global total_assentos
+    global total_assentos_liberados
+    global total_assentos_reservados
+
+    total_assentos += 1
+
+    if matriz_assentos[linha][coluna] == "'":
+        # Se estiver livre retorna True
+        total_assentos_liberados += 1
+    elif matriz_assentos[linha][coluna] == "X":
+        # Se estiver ocupado retorna False
+        total_assentos_reservados += 1
 
 
 def realiza_reserva(linha, coluna, sexo, idade):
@@ -194,7 +224,7 @@ def option_2():
         for row in rows:
             for i in range(len(row)):
                 if i == 1:
-                    if linha.upper()+str(coluna).zfill(1) == row[0]:
+                    if linha.upper() + str(coluna).zfill(1) == row[0]:
                         sexo = row[i]
                 if i == 2:
                     if linha.upper() + str(coluna).zfill(1) == row[0]:
@@ -237,7 +267,8 @@ def option_3():
         # Se todas livres
         for coluna in range(primeiro_assento, ultimo_assento + 1):
             # Solicita sexo e idade para cada assento
-            sexo = input(f"Sexo do ocupante do assento {linha.upper()}{str(coluna).zfill(2)} (F) feminino, (M) masculino: ")
+            sexo = input(
+                f"Sexo do ocupante do assento {linha.upper()}{str(coluna).zfill(2)} (F) feminino, (M) masculino: ")
             idade = input(f"Idade do ocupante do assento {linha.upper()}{str(coluna).zfill(2)}: ")
             # Chama função para realizar reserva
             realiza_reserva(linha, coluna, sexo, idade)
@@ -273,7 +304,88 @@ def option_5():
 
 def option_6():
     # Função para opção 6 escolhida (Relatórios)
-    print('opção 6 escolhida')
+
+    # Chama variáveis globais
+    global matriz_assentos
+    global reservas
+    global valor_ingresso
+    global linhas, colunas
+    global total_assentos, total_assentos_liberados, total_assentos_reservados
+    global total_reservados_M, total_reservados_F
+    global pagante_meia_menor, pagante_meia_idoso, pagante_inteira
+    global valor_pagante_menor, valor_pagante_idoso, valor_pagante_inteira
+
+    print("Reservas")
+    print("{:<12} {:<12} {:<12} {:<12}".format('Assento', 'Sexo', 'Idade', 'Valor'))
+    for reserva in reservas:
+        reserva_list = reserva.split(',')
+        assento, sexo, idade = reserva_list
+        print("{:<12} {:<12} {:<12} {:<12}".format(assento, sexo, idade, valor_ingresso))
+    print()
+
+    # Loop nas linhas
+    for i in range(linhas):
+        # Loop nas colunas
+        for j in range(colunas):
+            # Insere valor na lista temporária da linha
+            conta_assentos(i, j)
+
+    print("Assentos")
+    print("{:<12} {:<12} {:<12}".format('Liberados', 'Reservados', 'Total'))
+    print("{:<12} {:<12} {:<12}".format(total_assentos_liberados, total_assentos_reservados, total_assentos))
+    print()
+
+    for reserva in reservas:
+        reserva_list = reserva.split(',')
+
+        assento, sexo, idade = reserva_list
+        if sexo == 'M':
+            total_reservados_M += 1
+        if sexo == 'F':
+            total_reservados_F += 1
+
+    total_reservados = total_reservados_M + total_reservados_F
+
+    print("Reservas")
+    print("{:<12} {:<12} {:<12}".format('Masculino', 'Feminino', 'Total'))
+    print("{:<12} {:<12} {:<12}".format(total_reservados_M, total_reservados_F, total_reservados))
+    print()
+
+    for reserva in reservas:
+        reserva_list = reserva.split(',')
+
+        assento, sexo, idade = reserva_list
+        if 18 <= int(idade) <= 59:
+            pagante_inteira += 1
+            valor_pagante_inteira += int(valor_ingresso)
+        if int(idade) < 18:
+            pagante_meia_menor += 1
+            valor_pagante_menor += int(valor_ingresso)
+        if int(idade) > 59:
+            pagante_meia_idoso += 1
+            valor_pagante_idoso += int(valor_ingresso)
+
+    total_pagantes = pagante_inteira + pagante_meia_menor + pagante_meia_idoso
+    valor_total_pagantes = total_pagantes * int(valor_ingresso)
+
+    cent_menor = 100 * pagante_meia_menor / total_pagantes
+    cent_idoso = 100 * pagante_meia_idoso / total_pagantes
+    cent_inteira = 100 * pagante_inteira / total_pagantes
+
+    cent_menor_grafico = cent_menor * 20 / 100
+    cent_idoso_grafico = cent_idoso * 20 / 100
+    cent_inteira_grafico = cent_inteira * 20 / 100
+
+    cent_menor_grafico_2 = 20 - cent_menor_grafico
+    cent_idoso_grafico_2 = 20 - cent_idoso_grafico
+    cent_inteira_grafico_2 = 20 - cent_inteira_grafico
+
+    print("Gráfico Valores")
+    print("{:<12}: {:<6} - {:<6}% |{:<20}| R${:<6}".format('Meia menor', pagante_meia_menor, cent_menor, str('=' * round(int(cent_menor_grafico), 1)) + str('-' * round(int(cent_menor_grafico_2), 1)), valor_pagante_menor))
+    print("{:<12}: {:<6} - {:<6}% |{:<20}| R${:<6}".format('Inteira', pagante_inteira, cent_inteira, str('=' * round(int(cent_inteira_grafico), 1)) + str('-' * round(int(cent_inteira_grafico_2), 1)), valor_pagante_inteira))
+    print("{:<12}: {:<6} - {:<6}% |{:<20}| R${:<6}".format('Meia idoso', pagante_meia_idoso, cent_idoso, str('=' * round(int(cent_idoso_grafico), 1)) + str('-' * round(int(cent_idoso_grafico_2), 1)), valor_pagante_idoso))
+    print("{:<12}: {:<6} - {:<6}% |{:<20}| R${:<6}".format('Total', total_pagantes, '100,0', '====================', valor_total_pagantes))
+    print()
 
 
 def option_7():
