@@ -315,6 +315,7 @@ def option_6():
     global pagante_meia_menor, pagante_meia_idoso, pagante_inteira
     global valor_pagante_menor, valor_pagante_idoso, valor_pagante_inteira
 
+    # Lógica para mostrar tabela de reservas
     print("Reservas")
     print("{:<12} {:<12} {:<12} {:<12}".format('Assento', 'Sexo', 'Idade', 'Valor'))
     for reserva in reservas:
@@ -327,47 +328,56 @@ def option_6():
     for i in range(linhas):
         # Loop nas colunas
         for j in range(colunas):
-            # Insere valor na lista temporária da linha
+            # Executa contador de assentos
             conta_assentos(i, j)
 
+    # Lógica para mostrar total de assentos
     print("Assentos")
     print("{:<12} {:<12} {:<12}".format('Liberados', 'Reservados', 'Total'))
     print("{:<12} {:<12} {:<12}".format(total_assentos_liberados, total_assentos_reservados, total_assentos))
     print()
 
+    # Loop na matriz de apoio
     for reserva in reservas:
+        # Separando itens por vírgula
         reserva_list = reserva.split(',')
-
+        # Salvando itens separados em variáveis
         assento, sexo, idade = reserva_list
         if sexo == 'M':
+            # Se sexo masculino, soma 1
             total_reservados_M += 1
         if sexo == 'F':
+            # Se sexo feminino, soma 1
             total_reservados_F += 1
 
+        if 18 <= int(idade) <= 59:
+            # Se idade inteira, soma 1
+            pagante_inteira += 1
+            valor_pagante_inteira += int(valor_ingresso)
+        if int(idade) < 18:
+            # Se idade menor, soma 1
+            pagante_meia_menor += 1
+            valor_pagante_menor += int(valor_ingresso)
+        if int(idade) > 59:
+            # Se idade maior, soma 1
+            pagante_meia_idoso += 1
+            valor_pagante_idoso += int(valor_ingresso)
+
+    # Calcula total de assentos reservados
     total_reservados = total_reservados_M + total_reservados_F
 
+    # Lógica para mostrar total de assentos reservados separados pelo sexo
     print("Reservas")
     print("{:<12} {:<12} {:<12}".format('Masculino', 'Feminino', 'Total'))
     print("{:<12} {:<12} {:<12}".format(total_reservados_M, total_reservados_F, total_reservados))
     print()
 
-    for reserva in reservas:
-        reserva_list = reserva.split(',')
-
-        assento, sexo, idade = reserva_list
-        if 18 <= int(idade) <= 59:
-            pagante_inteira += 1
-            valor_pagante_inteira += int(valor_ingresso)
-        if int(idade) < 18:
-            pagante_meia_menor += 1
-            valor_pagante_menor += int(valor_ingresso)
-        if int(idade) > 59:
-            pagante_meia_idoso += 1
-            valor_pagante_idoso += int(valor_ingresso)
-
+    # Calcula total pagantes
     total_pagantes = pagante_inteira + pagante_meia_menor + pagante_meia_idoso
+    # Calcula valor total dos ingressos vendidos
     valor_total_pagantes = total_pagantes * int(valor_ingresso)
 
+    # Cálculos para montar gráfico
     cent_menor = 100 * pagante_meia_menor / total_pagantes
     cent_idoso = 100 * pagante_meia_idoso / total_pagantes
     cent_inteira = 100 * pagante_inteira / total_pagantes
@@ -379,13 +389,16 @@ def option_6():
     cent_menor_grafico_2 = 20 - cent_menor_grafico
     cent_idoso_grafico_2 = 20 - cent_idoso_grafico
     cent_inteira_grafico_2 = 20 - cent_inteira_grafico
+    # Fim cálculos para montar gráfico
 
+    # Lógica para montar gráfico
     print("Gráfico Valores")
     print("{:<12}: {:<6} - {:<6}% |{:<20}| R${:<6}".format('Meia menor', pagante_meia_menor, cent_menor, str('=' * round(int(cent_menor_grafico), 1)) + str('-' * round(int(cent_menor_grafico_2), 1)), valor_pagante_menor))
     print("{:<12}: {:<6} - {:<6}% |{:<20}| R${:<6}".format('Inteira', pagante_inteira, cent_inteira, str('=' * round(int(cent_inteira_grafico), 1)) + str('-' * round(int(cent_inteira_grafico_2), 1)), valor_pagante_inteira))
     print("{:<12}: {:<6} - {:<6}% |{:<20}| R${:<6}".format('Meia idoso', pagante_meia_idoso, cent_idoso, str('=' * round(int(cent_idoso_grafico), 1)) + str('-' * round(int(cent_idoso_grafico_2), 1)), valor_pagante_idoso))
     print("{:<12}: {:<6} - {:<6}% |{:<20}| R${:<6}".format('Total', total_pagantes, '100,0', '====================', valor_total_pagantes))
     print()
+    # Fim da lógica para montar gráfico
 
 
 def option_7():
